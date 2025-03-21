@@ -38,10 +38,21 @@ public class LoginController : Controller
         if (ModelState.IsValid)
         {
             await _signInManager.PasswordlessSignInAsync(model.Email, model.ReturnUrl);
-            return RedirectToAction("Index", new
+
+            if (model.Success != null)
             {
-                success = 3
-            });
+                return RedirectToAction("Index", new
+                {
+                    success = 3
+                });
+            }
+            else
+            {
+                return RedirectToAction("Index", new
+                {
+                    error = 5
+                });
+            }
         }
 
         return View(model);
@@ -86,6 +97,7 @@ public class LoginController : Controller
             3 => "If a valid admin user with this email address exists, " +
                 "we've sent you an email with a secure link to log in.",
             4 => "Access denied. Please log in.",
+            5 => "Invalid user email. Please give the valid user email address.",
             _ => null,
         };
     }
