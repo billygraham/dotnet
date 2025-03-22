@@ -23,6 +23,7 @@ mono_crash.*
 [Rr]eleases/
 x64/
 x86/
+build/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
@@ -33,6 +34,7 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
+# Visual Studo 2015 cache/options directory
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
@@ -45,6 +47,7 @@ Generated\ Files/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
+# NUNIT
 # NUnit
 *.VisualState.xml
 TestResult.xml
@@ -72,6 +75,7 @@ StyleCopReport.xml
 # Files built by Visual Studio
 *_i.c
 *_p.c
+*_i.h
 *_h.h
 *.ilk
 *.meta
@@ -132,6 +136,9 @@ _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
 
+# JustCode is a .NET coding addin-in
+.JustCode
+
 # TeamCity is a build add-in
 _TeamCity*
 
@@ -182,10 +189,12 @@ publish/
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
+# TODO: Comment the next line if you want to checkin your web deploy settings 
 # Note: Comment the next line if you want to checkin your web deploy settings,
 # but database connection strings (with potential passwords) will be unencrypted
 *.pubxml
 *.publishproj
+PublishProfiles/
 
 # Microsoft Azure Web App publish settings. Comment the next line if you want to
 # checkin your Azure Web App publish settings, but sensitive information contained
@@ -197,19 +206,24 @@ PublishScripts/
 # NuGet Symbol Packages
 *.snupkg
 # The packages folder can be ignored because of Package Restore
+**/packages/*
 **/[Pp]ackages/*
 # except build/, which is used as an MSBuild target.
+!**/packages/build/
 !**/[Pp]ackages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
+#!**/packages/repositories.config
 #!**/[Pp]ackages/repositories.config
 # NuGet v3's project.json files produces more ignorable files
 *.nuget.props
 *.nuget.targets
 
+# Windows Azure Build Output
 # Microsoft Azure Build Output
 csx/
 *.build.csdef
 
+# Windows Store app package directory
 # Microsoft Azure Emulator
 ecf/
 rcf/
@@ -223,6 +237,7 @@ _pkginfo.txt
 *.appxbundle
 *.appxupload
 
+# Others
 # Visual Studio cache files
 # files ending in .cache can be ignored
 *.[Cc]ache
@@ -231,6 +246,7 @@ _pkginfo.txt
 
 # Others
 ClientBin/
+[Ss]tyle[Cc]op.*
 ~$*
 *~
 *.dbmdl
@@ -238,6 +254,8 @@ ClientBin/
 *.jfm
 *.pfx
 *.publishsettings
+node_modules/
+bower_components/
 orleans.codegen.cs
 
 # Including strong name files can present a security risk
@@ -291,6 +309,24 @@ node_modules/
 # Visual Studio 6 workspace options file
 *.opt
 
+# Other
+project.lock.json
+*.jfm
+mail_dist/
+*.refactorlog
+*.scmp
+src/Core/Properties/launchSettings.json
+*.override.env
+**/*.DS_Store
+src/Admin/wwwroot/assets
+.vscode/*
+**/.vscode/*
+bitwarden_license/src/Sso/wwwroot/assets
+.github/test/build.secrets
+**/CoverageOutput/
+.idea/*
+**/**.swp
+.mono
 # Visual Studio 6 auto-generated workspace file (contains which files were open etc.)
 *.vbw
 
@@ -359,5 +395,15 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
+src/Admin/Admin.zip
+src/Api/Api.zip
+src/Billing/Billing.zip
+src/Events/Events.zip
+src/EventsProcessor/EventsProcessor.zip
+src/Identity/Identity.zip
+src/Notifications/Notifications.zip
+bitwarden_license/src/Portal/Portal.zip
+bitwarden_license/src/Sso/Sso.zip
+**/src/**/flags.json
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
