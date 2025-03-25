@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Text;
 using Bit.Core;
+using Bit.Core.Utilities;
 using DbUp;
 using DbUp.Helpers;
 using Microsoft.Data.SqlClient;
@@ -64,6 +65,14 @@ public class DbMigrator
 
     private void PrepareDatabase(CancellationToken cancellationToken = default)
     {
+        //Check if Docker is running. Need to implement to validate if SQL Server instance is running.
+        string strMailState = CoreHelpers.Exec("if((docker ps 2>&1) -match '^(?!error)'){\r\n   Write-Host \"Docker is running\"\r\n}", true);
+        if (string.IsNullOrEmpty(strMailState))
+        {
+            _logger.LogError("Docker is not running. SQL Server instance is not running.");
+            return;
+        }
+
         var masterConnectionString = new SqlConnectionStringBuilder(_connectionString)
         {
             InitialCatalog = "master"

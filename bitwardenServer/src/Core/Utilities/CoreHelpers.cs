@@ -1,5 +1,7 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -940,5 +942,36 @@ public static class CoreHelpers
         }
 
         return $"{shownPart}{redactedPart}@{emailParts[1]}";
+    }
+
+    public static string Exec(string cmd, bool returnStdout = false)
+    {
+        var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden
+            }
+        };
+
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            var escapedArgs = cmd.Replace("\"", "\\\"");
+            process.StartInfo.FileName = "/bin/bash";
+            process.StartInfo.Arguments = $"-c \"{escapedArgs}\"";
+        }
+        else
+        {
+            process.StartInfo.FileName = "powershell";
+            process.StartInfo.Arguments = cmd;
+        }
+
+        process.Start();
+        var result = returnStdout ? process.StandardOutput.ReadToEnd() : null;
+        process.WaitForExit();
+        return result;
     }
 }

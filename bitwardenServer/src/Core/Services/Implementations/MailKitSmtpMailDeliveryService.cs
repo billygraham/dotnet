@@ -35,6 +35,14 @@ public class MailKitSmtpMailDeliveryService : IMailDeliveryService
 
     public async Task SendEmailAsync(Models.Mail.MailMessage message)
     {
+        //Check if Docker is running. Need to implement to validate if Mail instance is running.
+        string strMailState = CoreHelpers.Exec("if((docker ps 2>&1) -match '^(?!error)'){\r\n   Write-Host \"Docker is running\"\r\n}", true);
+        if(string.IsNullOrEmpty(strMailState))
+        {
+            _logger.LogError("Docker is not running. Mail instance is not running.");
+            return;
+        }
+
         var mimeMessage = new MimeMessage();
         mimeMessage.From.Add(new MailboxAddress(_globalSettings.SiteName, _replyEmail));
         mimeMessage.Subject = message.Subject;
